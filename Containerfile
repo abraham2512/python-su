@@ -1,17 +1,19 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+## UBI9 Base image
+FROM registry.access.redhat.com/ubi9/ubi:latest
 
 # Update packages
-RUN microdnf update -y && \
-    microdnf clean all
+RUN dnf update -y && \
+    dnf clean all
 
-## Install python3.12
-RUN microdnf install python3.12 python3.12-pip
+## Install dependencies
+RUN dnf install -y python3.12 python3.12-devel openssh-clients sshpass
 
-## pip=pip3
-RUN echo "alias pip='pip3'" >> /etc/bashrc
+## Install pip and create symlinks
+RUN python3.12 -m ensurepip && \
+    python3.12 -m pip install --upgrade pip && \
+    ln -sf /usr/bin/python3.12 /usr/bin/python3 && \
+    ln -sf /usr/bin/python3.12 /usr/bin/python && \
+    ln -sf /usr/local/bin/pip3 /usr/bin/pip
 
-## Install 
-RUN microdnf install openssh-clients sshpass
-
-# Command to run when container starts
-CMD ["bash"]
+## Entrypoint
+CMD ["/bin/bash"]

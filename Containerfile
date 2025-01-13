@@ -6,7 +6,8 @@ RUN dnf update -y && \
     dnf clean all
 
 ## Install dependencies
-RUN dnf install -y python3.12 python3.12-devel openssh-clients sshpass
+RUN dnf install -y python3.12 python3.12-devel \
+    openssh-clients sshpass make git
 
 ## Install pip and create symlinks
 RUN python3.12 -m ensurepip && \

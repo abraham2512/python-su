@@ -5,7 +5,7 @@ RUN microdnf update -y && \
     microdnf clean all
 
 ## Install python3.12
-RUN microdnf install python3.12
+RUN microdnf install python3.12 python3.12-pip
 
 ## Install 
 RUN microdnf install openssh-clients sshpass
